@@ -3,12 +3,12 @@ cask "mashhad" do
   # substitutes into the url below as #{arch}.
   arch arm: "arm64", intel: "x64"
 
-  version "1.0.7"
+  version "1.0.8"
 
   # Refresh both on every release, from the published assets:
   #   shasum -a 256 Mashhad-arm64.dmg Mashhad-x64.dmg
-  sha256 arm:   "8dbdb2a565ed6c81d70be8baafebeba2fd5a85f217fb83016f62429fc9e2a3e8",
-         intel: "77ddb2a72c53b05f1953fe8120d50ffc0ba47f8301f70265624c90a2dca58e7b"
+  sha256 arm:   "7328a27f8ee46be095baf3be0b1126f139054fb417d6c14919c836ab943aafdf",
+         intel: "d0262d5f1d7e694eab505e008e00e4cb2aa6dc7840efec24d5d7c4a66972a311"
 
   # Attached to the tagged release in the public mashhad-releases repo, so Homebrew can
   # verify the sha256 against a URL that never changes under it. The filename carries no
@@ -31,10 +31,17 @@ cask "mashhad" do
   # This must be the on-disk filename or Homebrew fails with "App source ... is not there".
   app "Mashhad.app"
 
-  # The build is unsigned (no Apple Developer certificate yet), so macOS quarantines
-  # it and shows "app is damaged / can't be opened". Strip the quarantine attribute
-  # on install so it launches cleanly. Remove this block once the app is signed +
-  # notarized.
+  # The build is ad-hoc signed under its own identifier (com.abdul.mashhad) but NOT
+  # notarized — notarization needs a paid Developer ID. macOS therefore still
+  # quarantines a downloaded .dmg, so strip the attribute on install to launch cleanly.
+  #
+  # As of 1.0.8 the identifier is ours. Before that the bundle carried stock Electron's
+  # ad-hoc signature (Identifier=Electron), sharing one CDHash with every unsigned
+  # Electron build; Apple revoked that hash and Gatekeeper blocked Mashhad outright with
+  # "contains malware" — which this block could not help with, because revocation is
+  # enforced separately from quarantine. Keep the identifier unique.
+  #
+  # Remove this block only once the app is properly signed + notarized.
   postflight do
     system_command "/usr/bin/xattr",
                    args: ["-dr", "com.apple.quarantine", "#{appdir}/Mashhad.app"],
