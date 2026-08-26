@@ -3,12 +3,12 @@ cask "mashhad" do
   # substitutes into the url below as #{arch}.
   arch arm: "arm64", intel: "x64"
 
-  version "1.0.8"
+  version "1.0.9"
 
   # Refresh both on every release, from the published assets:
   #   shasum -a 256 Mashhad-arm64.dmg Mashhad-x64.dmg
-  sha256 arm:   "7328a27f8ee46be095baf3be0b1126f139054fb417d6c14919c836ab943aafdf",
-         intel: "d0262d5f1d7e694eab505e008e00e4cb2aa6dc7840efec24d5d7c4a66972a311"
+  sha256 arm:   "248edd2ab970498ad5fdc0b4549fb8f5b3e1650c5ad6e568826016196046b48e",
+         intel: "9f014a272370c9fa50a2096cb95847d4e00c8c7664d573a812eae93f8b1dc012"
 
   # Attached to the tagged release in the public mashhad-releases repo, so Homebrew can
   # verify the sha256 against a URL that never changes under it. The filename carries no
