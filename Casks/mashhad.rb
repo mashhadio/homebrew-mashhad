@@ -3,12 +3,12 @@ cask "mashhad" do
   # substitutes into the url below as #{arch}.
   arch arm: "arm64", intel: "x64"
 
-  version "1.0.11"
+  version "1.0.13"
 
   # Refresh both on every release, from the published assets:
   #   shasum -a 256 Mashhad-arm64.dmg Mashhad-x64.dmg
-  sha256 arm:   "8b45597c399dd07926e950aef5aa35895484c6c6ecfc8fa74c9bfdf85e948fa2",
-         intel: "4d06f94950ff1d9c3c18baf1f28247c3d93b17ae188e223a9cf40daa642dde2d"
+  sha256 arm:   "1cd7e1ccc95009293b7bb03a644d487b0116ea6f101cd309832de49f217d5af9",
+         intel: "0549fd53ffe30f67c721f3ee7c1969d62a07075fd7ea828acffc619f33d97abf"
 
   # Attached to the tagged release in the public mashhad-releases repo, so Homebrew can
   # verify the sha256 against a URL that never changes under it. The filename carries no
@@ -21,9 +21,11 @@ cask "mashhad" do
   desc "Screen recorder with cursor-tracking smooth zoom and mic noise cleanup"
   homepage "https://mashhad.io"
 
-  # No `depends_on macos:`. Homebrew disabled `:catalina` (it fails to load the cask
-  # outright, "There is no replacement") because Homebrew itself no longer runs on
-  # anything that old, so the floor it expressed was already guaranteed.
+  # 1.0.13 moved to Electron 39, which needs macOS 12; on 11 the app would install and
+  # then refuse to open. The symbol form means "Monterey or later". (The old
+  # `:catalina` floor was dropped: Homebrew disabled it outright, failing to load the
+  # cask, "There is no replacement".)
+  depends_on macos: :monterey
 
   # The bundle inside the .dmg is "Mashhad.app" (electron-builder falls back to
   # `executableName` for the bundle filename because productName is non-ASCII).
