@@ -21,9 +21,9 @@ cask "mashhad" do
   desc "Screen recorder with cursor-tracking smooth zoom and mic noise cleanup"
   homepage "https://mashhad.io"
 
-  # Symbol form already means ">= catalina"; the string form is deprecated and
-  # prints a warning on every `brew` invocation that touches the tap.
-  depends_on macos: :catalina
+  # No `depends_on macos:`. Homebrew disabled `:catalina` (it fails to load the cask
+  # outright, "There is no replacement") because Homebrew itself no longer runs on
+  # anything that old, so the floor it expressed was already guaranteed.
 
   # The bundle inside the .dmg is "Mashhad.app" (electron-builder falls back to
   # `executableName` for the bundle filename because productName is non-ASCII).
